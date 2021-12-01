@@ -12,7 +12,7 @@ def getCookie():
         browser.close()
 def ygb():
     with sync_playwright() as p:
-        browser = p.chromium.launch(channel="msedge",headless=False)
+        browser = p.chromium.launch(channel="msedge",headless=True)
         context = browser.new_context(storage_state="state.json")
         page=context.new_page()
         page.goto("https://www.douyu.com/957090")
@@ -30,5 +30,5 @@ def ygb():
             page.wait_for_timeout(500)
         print(i)
 if __name__ == "__main__":
-    ygb()
-    # getCookie()
+    # ygb()
+    getCookie()
