@@ -29,6 +29,11 @@ def ygb():
             page.click(anniu_path)
             page.wait_for_timeout(500)
         print(i)
+def fun1():
+    while(1):
+        sleep(24*60*60)
+        ygb()
+    pass
 if __name__ == "__main__":
-    # ygb()
-    getCookie()
+    ygb()
+    # getCookie()
