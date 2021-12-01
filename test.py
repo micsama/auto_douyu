@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 from time import sleep
+from sys import argv
 def getCookie():
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="msedge",headless=False)
@@ -35,5 +36,7 @@ def fun1():
         ygb()
     pass
 if __name__ == "__main__":
-    ygb()
-    # getCookie()
+    if argv[1]=='run':
+        ygb()
+    else:
+        getCookie()
