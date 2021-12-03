@@ -1,6 +1,6 @@
 from playwright.sync_api import sync_playwright
 from time import sleep
-from sys import argv
+from sys import argv,platform
 def getCookie():
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="msedge",headless=False)
@@ -12,10 +12,19 @@ def getCookie():
         print(storage)
         browser.close()
 def ygb():
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+    with sync_playwright() as playwright:
+        if platform=="linux":
+            browser = playwright.chromium.launch(headless=True)
+        elif platform=="darwin":
+            browser = playwright.chromium.launch(channel="msedge",headless=False)
+        elif platform=="win32":
+            browser = playwright.chromium.launch(channel="msedge",headless=True)
+        else:
+            print("系统支持有误，请检查")
+            exit(1)
         context = browser.new_context(storage_state="state.json")
         page=context.new_page()
+        page.set_default_timeout(60000)
         page.goto("https://www.douyu.com/957090")
         i_path="//html/body/section/main/div[5]/div[1]/div[5]/div/div[2]/div/div[2]/div/div[5]/div/div/div/div[2]/div[2]/div/div[1]/ul[1]/li[1]/span"
         anniu_path="//html/body/section/main/div[5]/div[1]/div[5]/div/div[2]/div/div[2]/div/div[5]/div/div/div/div[2]/div[2]/div/div[1]/ul[1]/li[1]/img"
@@ -28,7 +37,6 @@ def ygb():
         i=page.inner_text(i_path)
         for j in range(i):
             page.click(anniu_path)
-            page.wait_for_timeout(500)
         print(i)
 def fun1():
     while(1):
@@ -36,7 +44,7 @@ def fun1():
         ygb()
     pass
 if __name__ == "__main__":
-    if argv[1]=='run':
-        ygb()
-    else:
+    if len(argv)==1:
         getCookie()
+    else:
+        ygb()
